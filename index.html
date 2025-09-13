@@ -23,44 +23,37 @@
   html{scroll-behavior:smooth}
   body{font-family:var(--sans); color:var(--brown-dark); background:#fff; line-height:1.6; overflow-x:hidden; min-height:100vh; position:relative}
 
-  /* FUNDO com fallback forte */
-  .background-pattern{
-    position:fixed; inset:0; z-index:-2;
-    background-repeat:no-repeat; background-position:center bottom; background-size:cover;
-    background-image:
-      url('./img/bg-mobile-1440x2560.jpg'),
-      radial-gradient(1200px 800px at 50% 80%, rgba(0,0,0,.04), transparent 60%),
-      linear-gradient(180deg, #F7F4EF 0%, #E8E2D8 100%);
+  /* FUNDO EM DUAS CAMADAS (contém sem cortar + preenchimento borrado) */
+  .bg-layer{position:fixed; inset:0; pointer-events:none}
+  .bg-fill{z-index:-3; filter:blur(16px) saturate(1.05); transform:scale(1.06); opacity:.55;
+    background-repeat:no-repeat; background-position:center center; background-size:cover;
+    background-image:url('./img/bg-mobile-1440x2560.jpg');
+  }
+  .bg-art{z-index:-2; background-repeat:no-repeat; background-position:center bottom; background-size:contain;
+    background-image:url('./img/bg-mobile-1440x2560.jpg');
   }
   @supports (background-image: image-set(url("x") 1x)){
-    .background-pattern{
-      background-image:
-        image-set(
-          url('./img/bg-mobile-1440x2560.webp') type('image/webp') 1x,
-          url('./img/bg-mobile-1440x2560.jpg')  type('image/jpeg') 1x
-        ),
-        radial-gradient(1200px 800px at 50% 80%, rgba(0,0,0,.04), transparent 60%),
-        linear-gradient(180deg, #F7F4EF 0%, #E8E2D8 100%);
-    }
+    .bg-fill{background-image:image-set(
+      url('./img/bg-mobile-1440x2560.webp') type('image/webp') 1x,
+      url('./img/bg-mobile-1440x2560.jpg') type('image/jpeg') 1x
+    )}
+    .bg-art{background-image:image-set(
+      url('./img/bg-mobile-1440x2560.webp') type('image/webp') 1x,
+      url('./img/bg-mobile-1440x2560.jpg') type('image/jpeg') 1x
+    )}
   }
   @media (min-width:900px){
-    .background-pattern{
-      background-position:center center;
-      background-image:
-        url('./img/bg-desktop-2560x1440.jpg'),
-        radial-gradient(1200px 800px at 50% 80%, rgba(0,0,0,.04), transparent 60%),
-        linear-gradient(180deg, #F7F4EF 0%, #E8E2D8 100%);
-    }
+    .bg-fill{background-image:url('./img/bg-desktop-2560x1440.jpg')}
+    .bg-art{background-image:url('./img/bg-desktop-2560x1440.jpg'); background-position:center center}
     @supports (background-image: image-set(url("x") 1x)){
-      .background-pattern{
-        background-image:
-          image-set(
-            url('./img/bg-desktop-2560x1440.webp') type('image/webp') 1x,
-            url('./img/bg-desktop-2560x1440.jpg')  type('image/jpeg') 1x
-          ),
-          radial-gradient(1200px 800px at 50% 80%, rgba(0,0,0,.04), transparent 60%),
-          linear-gradient(180deg, #F7F4EF 0%, #E8E2D8 100%);
-      }
+      .bg-fill{background-image:image-set(
+        url('./img/bg-desktop-2560x1440.webp') type('image/webp') 1x,
+        url('./img/bg-desktop-2560x1440.jpg') type('image/jpeg') 1x
+      )}
+      .bg-art{background-image:image-set(
+        url('./img/bg-desktop-2560x1440.webp') type('image/webp') 1x,
+        url('./img/bg-desktop-2560x1440.jpg') type('image/jpeg') 1x
+      )}
     }
   }
 
@@ -86,7 +79,7 @@
   .main-container{position:relative; z-index:10}
   .section{min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:2rem 1.5rem; opacity:0; transform:translateY(40px); transition:opacity 1s ease, transform 1s ease}
   .section.visible{opacity:1; transform:none}
-  .section-content{text-align:center; max-width:420px; width:100%; background:rgba(255,255,255,.85); backdrop-filter:blur(20px); border-radius:24px; padding:2.5rem 2rem; border:1px solid rgba(255,255,255,.4); box-shadow:0 20px 60px rgba(45,37,29,.12), inset 0 1px 0 rgba(255,255,255,.8)}
+  .section-content{text-align:center; max-width:420px; width:100%; background:rgba(255,255,255,.86); backdrop-filter:blur(20px); border-radius:24px; padding:2.2rem 2rem; border:1px solid rgba(255,255,255,.4); box-shadow:0 20px 60px rgba(45,37,29,.12), inset 0 1px 0 rgba(255,255,255,.8)}
 
   .title-main{font-family:var(--serif); font-size:clamp(2.8rem,8vw,4.2rem); font-weight:700; background:linear-gradient(135deg,#8B4A52,#A55D65); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-.02em; margin-bottom:1rem; line-height:1.1}
   .title-secondary{font-family:var(--serif); font-size:clamp(1.8rem,6vw,2.4rem); font-weight:600; color:var(--brown); margin-bottom:1.2rem; position:relative}
@@ -107,12 +100,12 @@
   .location-title{font-family:var(--serif); font-size:1.6rem; color:#8B4A52; margin-bottom:.4rem; font-weight:600}
   .address{color:var(--brown); line-height:1.7; font-size:1.05rem}
 
-  .actions-list{width:100%; max-width:460px; display:flex; flex-direction:column; gap:18px; margin-top:1.2rem}
-  .item{display:flex; align-items:center; gap:18px; padding:16px 18px; border-radius:18px; border:1px solid rgba(255,255,255,.6); background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(255,255,255,.78)); text-decoration:none; color:inherit; transition:transform .15s ease, box-shadow .15s ease, border-color .3s ease; backdrop-filter:blur(10px); box-shadow:0 6px 20px rgba(45,37,29,.12)}
-  .item:hover{transform:translateY(-2px); box-shadow:0 14px 34px rgba(45,37,29,.18); border-color:var(--gold)}
-  .item:active{transform:scale(.95); box-shadow:0 18px 38px rgba(45,37,29,.22)}
-  .medal{flex:0 0 90px; width:90px; height:90px; border-radius:50%; display:grid; place-items:center; position:relative; background:radial-gradient(130px 130px at 35% 25%, rgba(255,255,255,.95), rgba(247,241,232,.8)); border:2px solid var(--gold-light); box-shadow:0 8px 25px rgba(45,37,29,.15), inset 0 2px 8px rgba(255,255,255,.8), inset 0 -2px 4px rgba(230,195,104,.2)}
-  .icon{position:relative; z-index:1; color:var(--brown); font-size:1.9rem}
+  /* BOTÕES CIRCULARES lado a lado, sem subtítulos */
+  .actions-row{display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; width:100%; max-width:420px; margin:1.2rem auto 0}
+  .circle-btn{display:grid; place-items:center; width:88px; height:88px; margin:0 auto; border-radius:50%; background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,255,255,.8)); border:2px solid var(--gold-light); color:var(--brown); text-decoration:none; box-shadow:0 8px 24px rgba(45,37,29,.14), inset 0 2px 8px rgba(255,255,255,.8); transition:transform .15s ease, box-shadow .15s ease, border-color .2s ease; backdrop-filter:blur(10px)}
+  .circle-btn:hover{transform:translateY(-2px); box-shadow:0 14px 34px rgba(45,37,29,.18); border-color:var(--gold)}
+  .circle-btn:active{transform:scale(.95)}
+  .circle-btn i{font-size:1.6rem}
 
   .progress-dots{position:fixed; right:1.5rem; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:1rem; z-index:100}
   .progress-dot{width:10px; height:10px; border-radius:50%; background:rgba(184,168,150,.35); transition:all .4s ease; cursor:pointer; position:relative}
@@ -121,17 +114,18 @@
   .scroll-hint{position:fixed; left:50%; bottom:18px; transform:translateX(-50%); width:8px; height:8px; border-radius:50%; background:rgba(80,68,60,.45); box-shadow:0 0 0 0 rgba(80,68,60,.28); animation:pulse 2s ease-out infinite; z-index:10}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(80,68,60,.28)}70%{box-shadow:0 0 0 12px rgba(80,68,60,0)}100%{box-shadow:0 0 0 0 rgba(80,68,60,0)}}
 
-  @media (min-width:768px){ .section{padding:3rem 2rem} .section-content{max-width:560px; padding:3rem 2.5rem} .actions-list{max-width:600px} }
-  @media (min-width:1024px){ .section-content{max-width:650px} .actions-list{max-width:650px} }
+  @media (min-width:768px){ .section{padding:3rem 2rem} .section-content{max-width:560px; padding:3rem 2.5rem} .actions-row{max-width:560px} }
+  @media (min-width:1024px){ .section-content{max-width:650px} .actions-row{max-width:650px} }
 </style>
 </head>
 <body>
-  <!-- Trilha: sem botão; inicia após 1ª interação, 1s de atraso, fade-in; volume 50% -->
-  <audio id="bgm" loop preload="auto">
+  <!-- Áudio com destravamento robusto -->
+  <audio id="bgm" loop preload="auto" playsinline>
     <source src="./audio/trilha.mp3" type="audio/mpeg">
   </audio>
 
-  <div class="background-pattern"></div>
+  <div class="bg-layer bg-fill"></div>
+  <div class="bg-layer bg-art"></div>
 
   <div class="bg-anim" aria-hidden="true">
     <div class="balloon b1"></div>
@@ -177,20 +171,15 @@
     <section class="section" id="confirmation">
       <div class="section-content">
         <h2 class="title-secondary">Confirmação de Presença</h2>
-        <div class="actions-list">
-          <a class="item"
-             href="https://wa.me/554899245688?text=Oi!%20Confirmo%20presen%C3%A7a%20no%20Ch%C3%A1%20Revela%C3%A7%C3%A3o."
-             target="_blank" rel="noopener">
-            <div class="medal"><i class="icon fas fa-calendar-check"></i></div>
-            <div class="text"><span class="t1">Confirmar presença</span><span class="t2">Abrir WhatsApp com a mensagem</span></div>
+        <div class="actions-row">
+          <a class="circle-btn" href="https://wa.me/554899245688?text=Oi!%20Confirmo%20presen%C3%A7a%20no%20Ch%C3%A1%20Revela%C3%A7%C3%A3o." target="_blank" rel="noopener" title="Confirmar presença" aria-label="Confirmar presença">
+            <i class="fa-solid fa-calendar-check"></i>
           </a>
-          <a class="item" href="https://maps.app.goo.gl/AK5U1NG3bWXT1neR9" target="_blank" rel="noopener">
-            <div class="medal"><i class="icon fas fa-map-marker-alt"></i></div>
-            <div class="text"><span class="t1">Ver no mapa</span><span class="t2">Abrir Google Maps no local</span></div>
+          <a class="circle-btn" href="https://maps.app.goo.gl/AK5U1NG3bWXT1neR9" target="_blank" rel="noopener" title="Ver no mapa" aria-label="Ver no mapa">
+            <i class="fa-solid fa-map-location-dot"></i>
           </a>
-          <a class="item" href="https://example.com/lista-de-presentes" target="_blank" rel="noopener">
-            <div class="medal"><i class="icon fas fa-gift"></i></div>
-            <div class="text"><span class="t1">Lista de presentes</span><span class="t2">Se quiser mimar, deixamos algumas ideias</span></div>
+          <a class="circle-btn" href="https://example.com/lista-de-presentes" target="_blank" rel="noopener" title="Lista de presentes" aria-label="Lista de presentes">
+            <i class="fa-solid fa-gift"></i>
           </a>
         </div>
       </div>
@@ -208,6 +197,7 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    /* Alterna nomes */
     const names = {
       male:['Gabriel','Miguel','Arthur','Heitor','Bernardo','Theo','Davi','Lorenzo','Nicolas','Samuel'],
       female:['Alice','Sofia','Helena','Valentina','Laura','Isabella','Manuela','Julia','Heloisa','Luiza']
@@ -232,6 +222,7 @@
     setTimeout(()=>nameDisplay.classList.add('active'),800);
     setInterval(switchName,3000);
 
+    /* Seções + dots */
     const sections=document.querySelectorAll('.section');
     const dots=document.querySelectorAll('.progress-dot');
     const io=new IntersectionObserver(entries=>{
@@ -246,7 +237,7 @@
     sections.forEach(s=>io.observe(s));
     dots.forEach(d=>d.addEventListener('click',()=>document.getElementById(d.dataset.target)?.scrollIntoView({behavior:'smooth'})));
 
-    /* ÁUDIO volume 50% (0.5), inicia após 1ª interação com atraso de 1s e fade-in */
+    /* ÁUDIO: volume 50%, robusto */
     const bgm=document.getElementById('bgm');
     const TARGET_VOL = 0.5;
     function fadeIn(el, ms=1000, target=TARGET_VOL){
@@ -254,13 +245,21 @@
       const steps=20, step=target/steps, interval=ms/steps;
       const t=setInterval(()=>{ el.volume=Math.min(target, el.volume+step); if(el.volume>=target) clearInterval(t); }, interval);
     }
-    let started=false;
+    let started=false, tries=0;
+    function attemptPlay(){
+      if(!started) return;
+      bgm.muted=false; bgm.volume=0; bgm.load();
+      bgm.play().then(()=>fadeIn(bgm,1000,TARGET_VOL)).catch(()=>{
+        // retry a few times silently
+        if(tries<6){ tries++; setTimeout(attemptPlay, 800); }
+      });
+    }
     function startAudio(){
       if(started) return; started=true;
-      setTimeout(()=>{ bgm.play().then(()=>fadeIn(bgm,1000,TARGET_VOL)).catch(()=>{}); }, 1000);
+      setTimeout(attemptPlay, 1000);
     }
-    ['pointerdown','touchstart','click','keydown','scroll'].forEach(ev=>{
-      window.addEventListener(ev, startAudio, {once:true, passive:true});
+    ['pointerdown','touchstart','click','keydown','scroll','mousemove','mouseenter','visibilitychange'].forEach(ev=>{
+      window.addEventListener(ev, startAudio, {passive:true});
     });
   });
 </script>
