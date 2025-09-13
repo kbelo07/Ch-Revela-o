@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Chá Revelação - Convite Especial</title>
-<meta name="description" content="Convite online para o Chá Revelação — com confirmação de presença, agenda, localização, votação divertida e lista de presentes.">
-
+<title>Chá Revelação - Convite</title>
+<meta name="description" content="Convite online para o Chá Revelação — confirmação, agenda, mapa e lista de presentes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -13,103 +12,88 @@
 
 <style>
   :root{
-    --brown-dark:#2A251F;
-    --brown:#3D342A;
-    --burgundy:#8B4A52;
-    --burgundy-light:#A55D65;
-    --taupe:#B8A896;
-    --taupe-light:#C4B5A4;
-    --label-contrast:#4A3C35;
-    --subtitle-contrast:#5A5A5A;
-    --gold-light:#F2D085;
-    --powder:#C7D5E0;
-    --powder-deep:#6F8D98;
-    --sage:#8FA693;
-    --serif:'Playfair Display',serif;
-    --sans:'Inter',sans-serif;
+    --brown-dark:#2A251F; --brown:#3D342A;
+    --burgundy:#8B4A52; --burgundy-light:#A55D65;
+    --label-contrast:#4A3C35; --subtitle-contrast:#5A5A5A;
+    --gold:#E6C368; --gold-light:#F2D085;
+    --powder:#C7D5E0; --powder-deep:#6F8D98; --sage:#8FA693;
+    --serif:'Playfair Display',serif; --sans:'Inter',sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:var(--sans); color:var(--brown-dark); background:#fff; line-height:1.6; overflow-x:hidden; min-height:100vh; position:relative}
 
-  /* Fundo com fallback forte:
-     1) Gradient base + JPG (sempre presente)
-     2) @media troca para JPG desktop
-     3) @supports image-set usa WEBP quando possível */
+  /* FUNDO com fallback forte */
   .background-pattern{
     position:fixed; inset:0; z-index:-2;
-    background:
+    background-repeat:no-repeat; background-position:center bottom; background-size:cover;
+    background-image:
+      url('./img/bg-mobile-1440x2560.jpg'),
       radial-gradient(1200px 800px at 50% 80%, rgba(0,0,0,.04), transparent 60%),
       linear-gradient(180deg, #F7F4EF 0%, #E8E2D8 100%);
-    background-repeat:no-repeat;
-    background-position:center bottom;
-    background-size:cover;
-    /* Fallback JPG (mobile) */
-    background-image: url('./img/bg-mobile-1440x2560.jpg');
+  }
+  @supports (background-image: image-set(url("x") 1x)){
+    .background-pattern{
+      background-image:
+        image-set(
+          url('./img/bg-mobile-1440x2560.webp') type('image/webp') 1x,
+          url('./img/bg-mobile-1440x2560.jpg')  type('image/jpeg') 1x
+        ),
+        radial-gradient(1200px 800px at 50% 80%, rgba(0,0,0,.04), transparent 60%),
+        linear-gradient(180deg, #F7F4EF 0%, #E8E2D8 100%);
+    }
   }
   @media (min-width:900px){
     .background-pattern{
       background-position:center center;
-      /* Fallback JPG (desktop) */
-      background-image: url('./img/bg-desktop-2560x1440.jpg');
+      background-image:
+        url('./img/bg-desktop-2560x1440.jpg'),
+        radial-gradient(1200px 800px at 50% 80%, rgba(0,0,0,.04), transparent 60%),
+        linear-gradient(180deg, #F7F4EF 0%, #E8E2D8 100%);
     }
-  }
-  @supports (background-image: image-set(url('x') 1x)){
-    .background-pattern{
-      background-image: image-set(
-        url('./img/bg-mobile-1440x2560.webp') type('image/webp') 1x,
-        url('./img/bg-mobile-1440x2560.jpg')  type('image/jpeg') 1x
-      );
-    }
-    @media (min-width:900px){
+    @supports (background-image: image-set(url("x") 1x)){
       .background-pattern{
-        background-image: image-set(
-          url('./img/bg-desktop-2560x1440.webp') type('image/webp') 1x,
-          url('./img/bg-desktop-1440x2560.jpg') type('image/jpeg') 1x, /* safety */
-          url('./img/bg-desktop-2560x1440.jpg') type('image/jpeg') 1x
-        );
+        background-image:
+          image-set(
+            url('./img/bg-desktop-2560x1440.webp') type('image/webp') 1x,
+            url('./img/bg-desktop-2560x1440.jpg')  type('image/jpeg') 1x
+          ),
+          radial-gradient(1200px 800px at 50% 80%, rgba(0,0,0,.04), transparent 60%),
+          linear-gradient(180deg, #F7F4EF 0%, #E8E2D8 100%);
       }
     }
   }
 
-  /* Camada animada */
   .bg-anim{position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden}
   .balloon{position:absolute; width:28px; height:36px; border-radius:16px 16px 18px 18px; background:rgba(207,220,228,.35); box-shadow:0 2px 8px rgba(0,0,0,.06)}
   .balloon::after{content:""; position:absolute; left:50%; bottom:-14px; width:1px; height:16px; background:rgba(0,0,0,.12); transform:translateX(-50%)}
   .b1{left:12%; bottom:-10%; animation:floatUp 22s linear infinite}
   .b2{left:28%; bottom:-15%; width:22px;height:30px; animation:floatUp 28s linear infinite 6s}
   .b3{right:14%; bottom:-12%; width:26px;height:34px; animation:floatUp 25s linear infinite 3s}
-  @keyframes floatUp{from{transform:translateY(0) translateX(0); opacity:.0} 10%{opacity:.7} 80%{opacity:.7} to{transform:translateY(-120vh) translateX(10vw); opacity:0}}
-
-  .twinkle{position:absolute; width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.75); box-shadow:0 0 10px rgba(255,255,255,.65); animation:twinkle 2.2s ease-in-out infinite}
-  .s1{left:20%; top:22%} .s2{left:40%; top:16%; animation-delay:.8s} .s3{right:26%; top:28%; animation-delay:1.4s} .s4{right:12%; top:12%; animation-delay:.3s}
-  @keyframes twinkle{0%,100%{opacity:.25; transform:scale(.8)} 50%{opacity:1; transform:scale(1.15)}}
-
+  @keyframes floatUp{from{transform:translateY(0);opacity:0}10%{opacity:.7}80%{opacity:.7}to{transform:translateY(-120vh) translateX(10vw);opacity:0}}
   .cloud{position:absolute; width:140px; height:60px; background:rgba(255,255,255,.35); border-radius:40px; filter:blur(.5px); animation:drift 80s linear infinite}
   .cloud::before,.cloud::after{content:""; position:absolute; background:inherit; border-radius:inherit}
-  .cloud::before{width:90px; height:45px; left:18px; top:-18px}
-  .cloud::after{width:70px; height:35px; left:64px; top:-8px}
+  .cloud::before{width:90px;height:45px;left:18px;top:-18px}
+  .cloud::after{width:70px;height:35px;left:64px;top:-8px}
   .c1{left:-20%; top:12%} .c2{left:-15%; top:34%; animation-duration:95s; opacity:.4}
   @keyframes drift{to{transform:translateX(140%)}}
-
   .boat{position:absolute; left:6%; bottom:4%; width:0; height:0; border-left:28px solid transparent; border-right:28px solid transparent; border-top:22px solid rgba(255,255,255,.75); transform-origin:50% 100%; animation:bob 5.8s ease-in-out infinite}
   .boat::after{content:""; position:absolute; left:-12px; bottom:20px; width:24px; height:8px; background:rgba(255,255,255,.75)}
-  @keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(4px) rotate(2deg)}}
-
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(4px) rotate(2deg)}}
   .plane{position:absolute; right:-12%; top:65%; width:0; height:0; border-style:solid; border-width:10px 0 10px 30px; border-color:transparent transparent transparent rgba(255,255,255,.8); filter:drop-shadow(0 2px 6px rgba(0,0,0,.08)); animation:planeFly 28s linear infinite}
-  @keyframes planeFly{0%{transform:translate(0,0) rotate(-10deg)} 45%{transform:translate(-60vw,-28vh) rotate(-8deg)} 55%{opacity:0} 56%{right:-12%; top:70%; opacity:0} 60%{opacity:.9} 100%{transform:translate(-62vw,-30vh) rotate(-8deg)}}
+  @keyframes planeFly{0%{transform:translate(0,0) rotate(-10deg)}45%{transform:translate(-60vw,-28vh) rotate(-8deg)}55%{opacity:0}56%{right:-12%; top:70%; opacity:0}60%{opacity:.9}100%{transform:translate(-62vw,-30vh) rotate(-8deg)}}
 
   .main-container{position:relative; z-index:10}
   .section{min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:2rem 1.5rem; opacity:0; transform:translateY(40px); transition:opacity 1s ease, transform 1s ease}
   .section.visible{opacity:1; transform:none}
   .section-content{text-align:center; max-width:420px; width:100%; background:rgba(255,255,255,.85); backdrop-filter:blur(20px); border-radius:24px; padding:2.5rem 2rem; border:1px solid rgba(255,255,255,.4); box-shadow:0 20px 60px rgba(45,37,29,.12), inset 0 1px 0 rgba(255,255,255,.8)}
 
-  .title-main{font-family:var(--serif); font-size:clamp(2.8rem,8vw,4.2rem); font-weight:700; background:linear-gradient(135deg,#8B4A52,#A55D65); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-.02em; margin-bottom:1rem; line-height:1.1; text-shadow:0 2px 4px rgba(139,74,82,.1)}
+  .title-main{font-family:var(--serif); font-size:clamp(2.8rem,8vw,4.2rem); font-weight:700; background:linear-gradient(135deg,#8B4A52,#A55D65); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-.02em; margin-bottom:1rem; line-height:1.1}
   .title-secondary{font-family:var(--serif); font-size:clamp(1.8rem,6vw,2.4rem); font-weight:600; color:var(--brown); margin-bottom:1.2rem; position:relative}
-  .title-secondary::after{content:""; position:absolute; bottom:-8px; left:50%; transform:translateX(-50%); width:60px; height:2px; background:linear-gradient(90deg,transparent,#E6C368,transparent)}
+  .title-secondary::after{content:""; position:absolute; bottom:-8px; left:50%; transform:translateX(-50%); width:60px; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent)}
   .subtitle{font-size:1.1rem; color:var(--subtitle-contrast); margin-bottom:2rem; font-weight:400; line-height:1.7}
 
-  .name-display{font-family:var(--serif); font-size:clamp(3.5rem,10vw,5.5rem); font-style:italic; font-weight:400; margin:2.2rem 0; opacity:0; transform:scale(.9); transition:opacity .6s ease, transform .6s ease; background:linear-gradient(135deg, var(--powder), var(--powder-deep), var(--sage)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; text-shadow:0 4px 8px rgba(139,74,82,.15)}
+  .name-display{font-family:var(--serif); font-size:clamp(3.5rem,10vw,5.5rem); font-style:italic; font-weight:400; margin:2.2rem 0; opacity:0; transform:scale(.9); transition:opacity .6s ease, transform .6s ease; background:linear-gradient(135deg,var(--powder),var(--powder-deep),var(--sage)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text}
   .name-display.active{opacity:1; transform:scale(1)}
   .gender-indicator{display:none}
 
@@ -125,44 +109,27 @@
 
   .actions-list{width:100%; max-width:460px; display:flex; flex-direction:column; gap:18px; margin-top:1.2rem}
   .item{display:flex; align-items:center; gap:18px; padding:16px 18px; border-radius:18px; border:1px solid rgba(255,255,255,.6); background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(255,255,255,.78)); text-decoration:none; color:inherit; transition:transform .15s ease, box-shadow .15s ease, border-color .3s ease; backdrop-filter:blur(10px); box-shadow:0 6px 20px rgba(45,37,29,.12)}
-  .item:hover{transform:translateY(-2px); box-shadow:0 14px 34px rgba(45,37,29,.18); border-color:var(--gold-light)}
+  .item:hover{transform:translateY(-2px); box-shadow:0 14px 34px rgba(45,37,29,.18); border-color:var(--gold)}
   .item:active{transform:scale(.95); box-shadow:0 18px 38px rgba(45,37,29,.22)}
-  .item:focus-visible{outline:3px solid rgba(230,195,104,.6); outline-offset:2px}
-
   .medal{flex:0 0 90px; width:90px; height:90px; border-radius:50%; display:grid; place-items:center; position:relative; background:radial-gradient(130px 130px at 35% 25%, rgba(255,255,255,.95), rgba(247,241,232,.8)); border:2px solid var(--gold-light); box-shadow:0 8px 25px rgba(45,37,29,.15), inset 0 2px 8px rgba(255,255,255,.8), inset 0 -2px 4px rgba(230,195,104,.2)}
-  .medal::after{content:""; position:absolute; inset:12px; border-radius:inherit; background:radial-gradient(100px 100px at 70% 30%, rgba(255,255,255,.7), transparent 70%)}
   .icon{position:relative; z-index:1; color:var(--brown); font-size:1.9rem}
-  .text{display:flex; flex-direction:column; align-items:flex-start}
-  .t1{font-family:var(--serif); font-weight:600; font-size:1.2rem; color:var(--brown); margin-bottom:2px}
-  .t2{font-size:.9rem; color:#6b625a; line-height:1.4}
 
   .progress-dots{position:fixed; right:1.5rem; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:1rem; z-index:100}
-  .progress-dot{width:10px; height:10px; border-radius:50%; background:rgba(184,168,150,.4); transition:all .4s ease; cursor:pointer; position:relative}
-  .progress-dot::before{content:""; position:absolute; inset:-4px; border-radius:50%; border:2px solid transparent; transition:border-color .4s ease}
-  .progress-dot.active{background:#8B4A52; transform:scale(1.4); box-shadow:0 0 16px rgba(139,74,82,.4)}
-  .progress-dot.active::before{border-color:rgba(139,74,82,.3)}
+  .progress-dot{width:10px; height:10px; border-radius:50%; background:rgba(184,168,150,.35); transition:all .4s ease; cursor:pointer; position:relative}
+  .progress-dot.active{background:#8B4A52; transform:scale(1.4); box-shadow:0 0 12px rgba(139,74,82,.35)}
 
-  .scroll-indicator{position:fixed; left:50%; bottom:2.2rem; transform:translateX(-50%); color:#6b625a; font-size:.9rem; display:flex; flex-direction:column; align-items:center; gap:.65rem; opacity:.9; z-index:10}
-  .scroll-indicator.hidden{opacity:0}
-  .scroll-arrow{width:24px; height:24px; border-right:2px solid #6b625a; border-bottom:2px solid #6b625a; transform:rotate(45deg); animation:jump 1.8s ease-in-out infinite}
-  @keyframes jump{0%,100%{transform:rotate(45deg) translateY(0)} 50%{transform:rotate(45deg) translateY(10px)}}
-
-  .audio-toggle{position:fixed; right:16px; bottom:16px; z-index:150; width:52px; height:52px; border-radius:999px; border:2px solid rgba(255,255,255,.7); background:rgba(255,255,255,.85); backdrop-filter:blur(8px); display:grid; place-items:center; cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,.12); transition:transform .15s ease}
-  .audio-toggle:hover{transform:translateY(-2px)} .audio-toggle:active{transform:scale(.95)}
-  .audio-toggle i{font-size:1.1rem; color:var(--brown)}
+  .scroll-hint{position:fixed; left:50%; bottom:18px; transform:translateX(-50%); width:8px; height:8px; border-radius:50%; background:rgba(80,68,60,.45); box-shadow:0 0 0 0 rgba(80,68,60,.28); animation:pulse 2s ease-out infinite; z-index:10}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(80,68,60,.28)}70%{box-shadow:0 0 0 12px rgba(80,68,60,0)}100%{box-shadow:0 0 0 0 rgba(80,68,60,0)}}
 
   @media (min-width:768px){ .section{padding:3rem 2rem} .section-content{max-width:560px; padding:3rem 2.5rem} .actions-list{max-width:600px} }
   @media (min-width:1024px){ .section-content{max-width:650px} .actions-list{max-width:650px} }
 </style>
 </head>
 <body>
-  <!-- Trilha: já apontando para /audio/trilha.mp3 -->
+  <!-- Trilha: sem botão; inicia após 1ª interação, 1s de atraso, fade-in; volume 50% -->
   <audio id="bgm" loop preload="auto">
     <source src="./audio/trilha.mp3" type="audio/mpeg">
   </audio>
-  <button class="audio-toggle" id="audioToggle" aria-label="Tocar/pausar trilha">
-    <i class="fa-solid fa-volume-xmark"></i>
-  </button>
 
   <div class="background-pattern"></div>
 
@@ -170,7 +137,6 @@
     <div class="balloon b1"></div>
     <div class="balloon b2"></div>
     <div class="balloon b3"></div>
-    <div class="twinkle s1"></div><div class="twinkle s2"></div><div class="twinkle s3"></div><div class="twinkle s4"></div>
     <div class="cloud c1"></div>
     <div class="cloud c2"></div>
     <div class="boat"></div>
@@ -184,10 +150,6 @@
         <p class="subtitle">Vem descobrir com a gente — leve, do nosso jeito e sem pressa. ✨</p>
         <div class="name-display" id="nameDisplay">Gabriel</div>
         <div class="gender-indicator" id="genderIndicator"></div>
-      </div>
-      <div class="scroll-indicator">
-        <div class="scroll-arrow"></div>
-        <span>Role para baixo</span>
       </div>
     </section>
 
@@ -235,6 +197,8 @@
     </section>
   </div>
 
+  <div class="scroll-hint" aria-hidden="true"></div>
+
   <div class="progress-dots">
     <div class="progress-dot active" data-target="intro"></div>
     <div class="progress-dot" data-target="details"></div>
@@ -250,18 +214,16 @@
     };
     let gender='male';
     const nameDisplay=document.getElementById('nameDisplay');
-
     function switchName(){
       nameDisplay.classList.remove('active');
       setTimeout(()=>{
         gender = (gender==='female')?'male':'female';
         const list = names[gender];
         nameDisplay.textContent = list[Math.floor(Math.random()*list.length)];
-        if(gender==='male'){
-          nameDisplay.style.background = 'linear-gradient(135deg, var(--powder), var(--powder-deep), var(--sage))';
-        }else{
-          nameDisplay.style.background = 'linear-gradient(135deg, #8B4A52, #E6C368, #A55D65)';
-        }
+        nameDisplay.style.background =
+          (gender==='male')
+          ? 'linear-gradient(135deg, var(--powder), var(--powder-deep), var(--sage))'
+          : 'linear-gradient(135deg, var(--burgundy), var(--gold), var(--burgundy-light))';
         nameDisplay.style.webkitBackgroundClip='text';
         nameDisplay.style.webkitTextFillColor='transparent';
         nameDisplay.classList.add('active');
@@ -272,44 +234,33 @@
 
     const sections=document.querySelectorAll('.section');
     const dots=document.querySelectorAll('.progress-dot');
-    const scrollIndicator=document.querySelector('.scroll-indicator');
     const io=new IntersectionObserver(entries=>{
       entries.forEach(e=>{
         if(e.isIntersecting){
           e.target.classList.add('visible');
           const id=e.target.id;
           dots.forEach(d=>d.classList.toggle('active', d.dataset.target===id));
-          scrollIndicator?.classList.toggle('hidden', id==='confirmation');
         }
       })
     },{threshold:.6});
     sections.forEach(s=>io.observe(s));
     dots.forEach(d=>d.addEventListener('click',()=>document.getElementById(d.dataset.target)?.scrollIntoView({behavior:'smooth'})));
 
-    // Áudio com volume base e fade-in
+    /* ÁUDIO volume 50% (0.5), inicia após 1ª interação com atraso de 1s e fade-in */
     const bgm=document.getElementById('bgm');
-    const toggle=document.getElementById('audioToggle');
-    bgm.volume = 0.25;
-    function fadeIn(el, ms = 1200, target = 0.25){
+    const TARGET_VOL = 0.5;
+    function fadeIn(el, ms=1000, target=TARGET_VOL){
       el.volume = 0;
-      const steps = 20, step = target/steps, interval = ms/steps;
-      const t=setInterval(()=>{
-        el.volume = Math.min(target, el.volume + step);
-        if(el.volume >= target) clearInterval(t);
-      },interval);
+      const steps=20, step=target/steps, interval=ms/steps;
+      const t=setInterval(()=>{ el.volume=Math.min(target, el.volume+step); if(el.volume>=target) clearInterval(t); }, interval);
     }
-    let tried=false;
-    function tryPlay(){
-      if(tried) return; tried=true;
-      bgm.play().then(()=>{
-        fadeIn(bgm, 1200, 0.25);
-        toggle.innerHTML='<i class="fa-solid fa-volume-high"></i>';
-      }).catch(()=>{});
+    let started=false;
+    function startAudio(){
+      if(started) return; started=true;
+      setTimeout(()=>{ bgm.play().then(()=>fadeIn(bgm,1000,TARGET_VOL)).catch(()=>{}); }, 1000);
     }
-    ['click','touchstart','keydown','scroll'].forEach(ev=>window.addEventListener(ev,tryPlay,{once:true,passive:true}));
-    toggle.addEventListener('click',()=>{
-      if(bgm.paused){ bgm.play().then(()=>toggle.innerHTML='<i class="fa-solid fa-volume-high"></i>').catch(()=>{}); }
-      else{ bgm.pause(); toggle.innerHTML='<i class="fa-solid fa-volume-xmark"></i>'; }
+    ['pointerdown','touchstart','click','keydown','scroll'].forEach(ev=>{
+      window.addEventListener(ev, startAudio, {once:true, passive:true});
     });
   });
 </script>
