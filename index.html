@@ -2,13 +2,14 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Chá Revelação - Convite</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Chá Revelação — Convite</title>
 <meta name="description" content="Convite online para o Chá Revelação — confirmação, agenda, mapa e presentes.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="./img/bg-mobile-1440x2560.webp" imagesrcset="./img/bg-mobile-1440x2560.webp 1x, ./img/bg-desktop-2560x1440.webp 2x">
+<link rel="preload" as="image" href="./img/bg-mobile-1440x2560.webp">
 <link rel="preload" as="audio" href="./audio/trilha.mp3">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -19,89 +20,93 @@
     --label-contrast:#4A3C35; --subtitle-contrast:#5A5A5A;
     --gold:#E6C368; --gold-light:#F2D085;
     --powder:#C7D5E0; --powder-deep:#6F8D98; --sage:#8FA693;
+    --card-alpha:.68; /* transparência dos cards */
     --serif:'Playfair Display',serif; --sans:'Inter',sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth; -webkit-tap-highlight-color:transparent}
   body{font-family:var(--sans); color:var(--brown-dark); background:#fff; line-height:1.6; overflow-x:hidden; min-height:100svh; position:relative}
 
-  /* BACKGROUND: duas camadas <img> (estável) */
+  /* BACKGROUND mobile-only: duas <img> camadas (estável) */
   .bg-wrap{position:fixed; inset:0; z-index:-2; pointer-events:none}
   .bg-fill, .bg-art{position:fixed; inset:0; width:100%; height:100%; object-position:center bottom; transform:translateZ(0)}
   .bg-fill{object-fit:cover; filter:blur(10px) saturate(1.05); opacity:.6}
   .bg-art{object-fit:contain}
-  @media (min-width:900px){ .bg-art{object-position:center center} }
 
-  /* Elementos animados leves */
+  /* Animações leves (desempenho-friendly) */
   .bg-anim{position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden}
-  .balloon{position:absolute; width:26px; height:34px; border-radius:16px 16px 18px 18px; background:rgba(255,255,255,.26); box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .balloon{position:absolute; width:24px; height:32px; border-radius:16px 16px 18px 18px; background:rgba(255,255,255,.22); box-shadow:0 2px 8px rgba(0,0,0,.06)}
   .balloon::after{content:""; position:absolute; left:50%; bottom:-14px; width:1px; height:16px; background:rgba(0,0,0,.12); transform:translateX(-50%)}
   .b1{left:12%; bottom:-12%; animation:floatUp 22s linear infinite}
-  .b2{left:28%; bottom:-14%; width:22px;height:30px; animation:floatUp 28s linear infinite 6s}
-  .b3{right:14%; bottom:-13%; width:24px;height:32px; animation:floatUp 25s linear infinite 3s}
+  .b2{left:28%; bottom:-14%; width:20px;height:28px; animation:floatUp 28s linear infinite 6s}
+  .b3{right:14%; bottom:-13%; width:22px;height:30px; animation:floatUp 25s linear infinite 3s}
   @keyframes floatUp{from{transform:translateY(0);opacity:0}10%{opacity:.7}80%{opacity:.7}to{transform:translateY(-110vh) translateX(8vw);opacity:0}}
-  .cloud{position:absolute; width:120px; height:52px; background:rgba(255,255,255,.22); border-radius:40px; filter:blur(.4px); animation:drift 85s linear infinite}
+  .cloud{position:absolute; width:110px; height:48px; background:rgba(255,255,255,.18); border-radius:40px; filter:blur(.5px); animation:drift 85s linear infinite}
   .cloud::before,.cloud::after{content:""; position:absolute; background:inherit; border-radius:inherit}
-  .cloud::before{width:80px;height:40px;left:16px;top:-16px}
-  .cloud::after{width:62px;height:30px;left:56px;top:-6px}
+  .cloud::before{width:72px;height:36px;left:14px;top:-14px}
+  .cloud::after{width:56px;height:28px;left:52px;top:-6px}
   .c1{left:-20%; top:12%} .c2{left:-12%; top:34%; animation-duration:95s; opacity:.4}
   @keyframes drift{to{transform:translateX(140%)}}
-  .boat{position:absolute; left:6%; bottom:4%; width:0; height:0; border-left:26px solid transparent; border-right:26px solid transparent; border-top:20px solid rgba(255,255,255,.62); transform-origin:50% 100%; animation:bob 5.8s ease-in-out infinite}
-  .boat::after{content:""; position:absolute; left:-12px; bottom:18px; width:24px; height:8px; background:rgba(255,255,255,.62)}
-  @keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(4px) rotate(2deg)}}
-  .plane{position:absolute; right:-12%; top:65%; width:0; height:0; border-style:solid; border-width:9px 0 9px 26px; border-color:transparent transparent transparent rgba(255,255,255,.68); filter:drop-shadow(0 2px 6px rgba(0,0,0,.08)); animation:planeFly 28s linear infinite}
-  @keyframes planeFly{0%{transform:translate(0,0) rotate(-10deg)}45%{transform:translate(-55vw,-26vh) rotate(-8deg)}55%{opacity:0}56%{right:-12%; top:70%; opacity:0}60%{opacity:.9}100%{transform:translate(-58vw,-28vh) rotate(-8deg)}}
 
+  /* SEÇÕES */
   .main-container{position:relative; z-index:10}
-  .section{min-height:100svh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:2rem 1.25rem; opacity:0; transform:translateY(34px); transition:opacity .7s ease, transform .7s ease}
+  .section{min-height:100svh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:2rem 1rem; opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease}
   .section.visible{opacity:1; transform:none}
-  .section-content{text-align:center; max-width:420px; width:100%; background:rgba(255,255,255,.9); border-radius:22px; padding:2rem 1.8rem; border:1px solid rgba(0,0,0,.06); box-shadow:0 10px 26px rgba(45,37,29,.12)}
 
-  .title-main{font-family:var(--serif); font-size:clamp(2.8rem,8vw,4.1rem); font-weight:700; background:linear-gradient(135deg,#8B4A52,#A55D65); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-.02em; margin-bottom:.8rem; line-height:1.1}
-  .title-secondary{font-family:var(--serif); font-size:clamp(1.8rem,6vw,2.3rem); font-weight:600; color:var(--brown); margin-bottom:1rem; position:relative}
-  .title-secondary::after{content:""; position:absolute; bottom:-8px; left:50%; transform:translateX(-50%); width:54px; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-  .subtitle{font-size:1.05rem; color:var(--subtitle-contrast); margin-bottom:1.6rem; line-height:1.6}
+  /* Cards abstratos e mais transparentes */
+  .section-content{--r1:28px; --r2:56px; --r3:24px; --r4:48px;
+    text-align:center; max-width:440px; width:100%;
+    background:rgba(255,255,255,var(--card-alpha));
+    border-radius: var(--r1) var(--r2) var(--r3) var(--r4) / 26px 42px 26px 42px; /* abstrato */
+    padding:1.8rem 1.2rem;
+    border:1px solid rgba(255,255,255,.35);
+    box-shadow:0 8px 22px rgba(45,37,29,.12);
+    backdrop-filter: blur(8px);
+  }
 
-  .name-display{font-family:var(--serif); font-size:clamp(3.4rem,10vw,5.2rem); font-style:italic; font-weight:400; margin:2rem 0; opacity:0; transform:scale(.92); transition:opacity .5s ease, transform .5s ease; background:linear-gradient(135deg,var(--powder),var(--powder-deep),var(--sage)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text}
+  .title-main{font-family:var(--serif); font-size:clamp(2.6rem,8vw,4rem); font-weight:700; background:linear-gradient(135deg,#8B4A52,#A55D65); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-.02em; margin-bottom:.8rem; line-height:1.1}
+  .subtitle{font-size:1.02rem; color:var(--subtitle-contrast); margin-bottom:1.2rem; line-height:1.6}
+  .name-display{font-family:var(--serif); font-size:clamp(3.2rem,10vw,5rem); font-style:italic; font-weight:400; margin:1.6rem 0 .6rem; opacity:0; transform:scale(.92); transition:opacity .5s ease, transform .5s ease; background:linear-gradient(135deg,var(--powder),var(--powder-deep),var(--sage)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text}
   .name-display.active{opacity:1; transform:scale(1)}
 
-  /* Poemas */
-  .poem{min-height:auto; padding:1.8rem 1.25rem}
-  .poem .poem-card{max-width:520px; background:rgba(255,255,255,.82); border:1px solid rgba(0,0,0,.06); border-radius:20px; padding:1rem 1.25rem; text-align:center; box-shadow:0 10px 22px rgba(45,37,29,.10)}
-  .poem p{font-family:var(--serif); font-size:1.15rem; color:#4A3C35; line-height:1.5}
+  /* Poemas leves */
+  .poem{min-height:auto; padding:1.4rem 1rem}
+  .poem .poem-card{max-width:460px; background:rgba(255,255,255,.56); border:1px solid rgba(255,255,255,.35); border-radius:24px 40px 22px 40px / 22px 36px 22px 36px; padding:.9rem 1.1rem; text-align:center; box-shadow:0 8px 18px rgba(45,37,29,.10); backdrop-filter: blur(6px)}
+  .poem p{font-family:var(--serif); font-size:1.12rem; color:#4A3C35; line-height:1.5}
 
-  .details{width:100%; max-width:420px; margin:1rem auto 0; background:rgba(255,255,255,.75); border-radius:14px; padding:1rem 1.1rem; border:1px solid rgba(0,0,0,.06); display:flex; flex-direction:column; gap:.2rem}
-  .row{display:flex; align-items:center; justify-content:space-between; padding:.7rem .2rem; border-bottom:1px dashed rgba(0,0,0,.08)}
+  /* Lista de detalhes (mais translúcida) */
+  .details{width:100%; max-width:440px; margin:.6rem auto 0; background:rgba(255,255,255,.56); border-radius:20px 44px 20px 44px / 20px 36px 20px 36px; padding:.9rem 1rem; border:1px solid rgba(255,255,255,.35); backdrop-filter: blur(6px); box-shadow:0 8px 18px rgba(45,37,29,.10)}
+  .row{display:flex; align-items:center; justify-content:space-between; padding:.66rem .1rem; border-bottom:1px dashed rgba(0,0,0,.08)}
   .row:last-child{border-bottom:none}
   .lab{font-size:.9rem; letter-spacing:.08em; text-transform:uppercase; color:#4A3C35; font-weight:700}
-  .val{font-family:var(--serif); font-size:1.15rem; color:var(--brown); font-weight:500}
+  .val{font-family:var(--serif); font-size:1.12rem; color:var(--brown); font-weight:500}
 
-  .location-card{background:rgba(255,255,255,.82); border-radius:18px; padding:1.6rem; margin:1rem 0; border:1px solid rgba(0,0,0,.06); box-shadow:0 10px 26px rgba(45,37,29,.12)}
-  .location-title{font-family:var(--serif); font-size:1.45rem; color:#8B4A52; margin-bottom:.4rem; font-weight:600}
-  .address{color:var(--brown); line-height:1.7; font-size:1.02rem}
+  .location-card{background:rgba(255,255,255,.56); border-radius:20px 44px 20px 44px / 20px 36px 20px 36px; padding:1.2rem; margin:.6rem 0; border:1px solid rgba(255,255,255,.35); backdrop-filter: blur(6px); box-shadow:0 8px 18px rgba(45,37,29,.10)}
+  .location-title{font-family:var(--serif); font-size:1.35rem; color:#8B4A52; margin-bottom:.3rem; font-weight:600}
+  .address{color:var(--brown); line-height:1.6; font-size:1.02rem}
 
-  .actions-title{font-family:var(--serif); font-size:clamp(1.8rem,6vw,2.2rem); margin-bottom:1rem; color:var(--brown)}
-  .actions-row{display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; width:100%; max-width:420px; margin:0 auto}
-  .circle-btn{display:grid; place-items:center; width:84px; height:84px; margin:0 auto; border-radius:50%; background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(255,255,255,.84)); border:2px solid var(--gold-light); color:var(--brown); text-decoration:none; box-shadow:0 8px 20px rgba(45,37,29,.14); transition:transform .12s ease, box-shadow .12s ease, border-color .2s ease}
+  .actions-title{font-family:var(--serif); font-size:clamp(1.6rem,6vw,2rem); margin-bottom:.9rem; color:var(--brown)}
+  .actions-row{display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; width:100%; max-width:440px; margin:0 auto}
+  .circle-btn{display:grid; place-items:center; width:78px; height:78px; margin:0 auto; border-radius:50%; background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(255,255,255,.76)); border:2px solid var(--gold-light); color:var(--brown); text-decoration:none; box-shadow:0 8px 20px rgba(45,37,29,.14); transition:transform .12s ease, box-shadow .12s ease, border-color .2s ease}
   .circle-btn:hover{transform:translateY(-2px); box-shadow:0 14px 30px rgba(45,37,29,.18); border-color:var(--gold)}
   .circle-btn:active{transform:scale(.96)}
-  .circle-btn i{font-size:1.5rem}
+  .circle-btn i{font-size:1.4rem}
 
-  .progress-dots{position:fixed; right:1.2rem; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:.9rem; z-index:100}
-  .progress-dot{width:9px; height:9px; border-radius:50%; background:rgba(184,168,150,.35); transition:transform .3s ease, background .3s ease; cursor:pointer}
+  .thanks{max-width:500px; margin:.8rem auto 0; color:#4A3C35; opacity:.9; font-size:.96rem; text-align:center}
+
+  /* Dots + seta-botão minimal */
+  .progress-dots{position:fixed; right:.9rem; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:.8rem; z-index:100}
+  .progress-dot{width:8px; height:8px; border-radius:50%; background:rgba(184,168,150,.35); transition:transform .3s ease, background .3s ease; cursor:pointer}
   .progress-dot.active{background:#8B4A52; transform:scale(1.35)}
-  .scroll-hint{position:fixed; left:50%; bottom:16px; transform:translateX(-50%); width:7px; height:7px; border-radius:50%; background:rgba(80,68,60,.45); box-shadow:0 0 0 0 rgba(80,68,60,.28); animation:pulse 2s ease-out infinite; z-index:10}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(80,68,60,.28)}70%{box-shadow:0 0 0 12px rgba(80,68,60,0)}100%{box-shadow:0 0 0 0 rgba(80,68,60,0)}}
-
-  @media (min-width:768px){ .section{padding:3rem 1.5rem} .section-content{max-width:560px; padding:2.4rem 2rem} .poem .poem-card{max-width:640px} .actions-row{max-width:560px} }
-  @media (min-width:1024px){ .section-content{max-width:640px} .actions-row{max-width:640px} }
-
-  .scroll-btn{position:fixed; left:50%; bottom:18px; transform:translateX(-50%); width:44px; height:44px; border-radius:999px; background:rgba(255,255,255,.92); border:1px solid rgba(0,0,0,.08); box-shadow:0 8px 20px rgba(45,37,29,.14); display:grid; place-items:center; z-index:12; cursor:pointer; transition:transform .12s ease, box-shadow .12s ease}
+  .scroll-btn{position:fixed;opacity:1; left:50%; bottom:18px; transform:translateX(-50%); width:42px; height:42px; border-radius:999px; background:rgba(255,255,255,.86); border:1px solid rgba(0,0,0,.08); box-shadow:0 8px 20px rgba(45,37,29,.14); display:grid; place-items:center; z-index:12; cursor:pointer; transition:transform .12s ease, box-shadow .12s ease}
   .scroll-btn::before{content:""; width:12px; height:12px; border-right:2px solid rgba(80,68,60,.7); border-bottom:2px solid rgba(80,68,60,.7); transform:rotate(45deg); margin-top:-4px}
-  .scroll-btn:hover{box-shadow:0 14px 30px rgba(45,37,29,.18); transform:translateX(-50%) translateY(-2px)}
   .scroll-btn:active{transform:translateX(-50%) scale(.96)}
-  .thanks{max-width:620px; margin:.9rem auto 0; color:#4A3C35; opacity:.9; font-size:.98rem}
+.scroll-btn.gone{opacity:0; pointer-events:none; transform:translateX(-50%) translateY(6px) scale(.9); transition:opacity .25s ease, transform .25s ease}
 
+  @media (min-width:560px){
+    .section-content{max-width:520px}
+    .details, .actions-row, .poem .poem-card{max-width:520px}
+  }
 </style>
 </head>
 <body>
@@ -111,13 +116,11 @@
 
   <div class="bg-wrap" aria-hidden="true">
     <picture>
-      <source srcset="./img/bg-mobile-1440x2560.webp" type="image/webp" media="(max-width: 899px)">
-      <source srcset="./img/bg-desktop-2560x1440.webp" type="image/webp" media="(min-width: 900px)">
+      <source srcset="./img/bg-mobile-1440x2560.webp" type="image/webp">
       <img class="bg-fill" alt="" src="./img/bg-mobile-1440x2560.jpg">
     </picture>
     <picture>
-      <source srcset="./img/bg-mobile-1440x2560.webp" type="image/webp" media="(max-width: 899px)">
-      <source srcset="./img/bg-desktop-2560x1440.webp" type="image/webp" media="(min-width: 900px)">
+      <source srcset="./img/bg-mobile-1440x2560.webp" type="image/webp">
       <img class="bg-art" alt="" src="./img/bg-mobile-1440x2560.jpg">
     </picture>
   </div>
@@ -128,8 +131,6 @@
     <div class="balloon b3"></div>
     <div class="cloud c1"></div>
     <div class="cloud c2"></div>
-    <div class="boat"></div>
-    <div class="plane"></div>
   </div>
 
   <div class="main-container">
@@ -137,8 +138,7 @@
       <div class="section-content">
         <h1 class="title-main">Chá Revelação</h1>
         <p class="subtitle">Vem descobrir com a gente — leve, do nosso jeito e sem pressa. ✨</p>
-        <div class="name-display" id="nameDisplay">Gabriel</div>
-        <p class="thanks">Obrigado por fazer parte desse momento com a gente. Sua presença é especial — vai ser lindo ter você por perto. 💙💚</p>
+        <div class="name-display" id="nameDisplay">Laura</div>
       </div>
     </section>
 
@@ -150,13 +150,12 @@
 
     <section class="section" id="details">
       <div class="section-content">
-        <h2 class="title-secondary">Reserve na agenda</h2>
+        <h2 class="title-main" style="font-size:1.8rem; -webkit-text-fill-color:initial; background:none; color:#3D342A; margin-bottom:.6rem">Reserve na agenda</h2>
         <div class="details">
           <div class="row"><span class="lab">Data</span><span class="val">21/09/2025 (Domingo)</span></div>
           <div class="row"><span class="lab">Horário</span><span class="val">15:30</span></div>
           <div class="row"><span class="lab">Traje</span><span class="val">Tons claros</span></div>
         </div>
-        <p class="thanks">Obrigado por fazer parte desse momento com a gente. Sua presença é especial — vai ser lindo ter você por perto. 💙💚</p>
       </div>
     </section>
 
@@ -168,12 +167,10 @@
 
     <section class="section" id="location">
       <div class="section-content">
-        <h2 class="title-secondary">Local</h2>
+        <h2 class="title-main" style="font-size:1.8rem; -webkit-text-fill-color:initial; background:none; color:#3D342A; margin-bottom:.6rem">Local</h2>
         <div class="location-card">
-          <h3 class="location-title">Endereço</h3>
           <p class="address">Rua Otávio Antônio Duarte, 299<br>XV de Novembro — Tijucas • SC</p>
         </div>
-        <p class="thanks">Obrigado por fazer parte desse momento com a gente. Sua presença é especial — vai ser lindo ter você por perto. 💙💚</p>
       </div>
     </section>
 
@@ -185,7 +182,7 @@
 
     <section class="section" id="actions">
       <div class="section-content">
-        <h2 class="actions-title">Ações rápidas</h2>
+        <h2 class="title-main" style="font-size:1.8rem; -webkit-text-fill-color:initial; background:none; color:#3D342A; margin-bottom:.6rem">Ações rápidas</h2>
         <div class="actions-row">
           <a class="circle-btn" href="https://wa.me/554899245688?text=Oi!%20Confirmo%20presen%C3%A7a%20no%20Ch%C3%A1%20Revela%C3%A7%C3%A3o." target="_blank" rel="noopener" title="Confirmar presença" aria-label="Confirmar presença">
             <i class="fa-solid fa-calendar-check"></i>
@@ -221,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     male:['Gabriel','Miguel','Arthur','Heitor','Bernardo','Theo','Davi','Lorenzo','Nicolas','Samuel'],
     female:['Alice','Sofia','Helena','Valentina','Laura','Isabella','Manuela','Julia','Heloisa','Luiza']
   };
-  let gender='male';
+  let gender='female';
   const nameDisplay=document.getElementById('nameDisplay');
   function switchName(){
     nameDisplay.classList.remove('active');
@@ -294,17 +291,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   attach();
-  /* Botão de seta: força gesto e vai para a próxima seção */
-  const scrollBtn = document.getElementById('scrollBtn');
+
+  /* Botão seta para acionar áudio e rolar */
+  const scrollBtn=document.getElementById('scrollBtn');
   if(scrollBtn){
-    scrollBtn.addEventListener('click', (e)=>{
+    const hideArrow=()=>{try{scrollBtn.classList.add('gone'); setTimeout(()=>scrollBtn.remove(), 400);}catch(e){}}
+    scrollBtn.addEventListener('click',(e)=>{
       e.preventDefault();
-      try{ startAudio(); }catch(_){}  // garante áudio
-      const next = document.getElementById('details') || document.getElementById('poema1');
+      try{ startAudio(); }catch(_){};
+      const next=document.getElementById('details')||document.getElementById('poema1');
       if(next){ next.scrollIntoView({behavior:'smooth'}); }
+      hideArrow();
     }, {passive:false});
   }
-
+  // Esconde a seta se o áudio for liberado por outro gesto
+  const hideWhenUnlocked = setInterval(()=>{ try{ if(typeof unlocked!=='undefined' && unlocked){ hideArrow(); clearInterval(hideWhenUnlocked); } }catch(e){} }, 300);
 });
 </script>
 </body>
