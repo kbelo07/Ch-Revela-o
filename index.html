@@ -32,24 +32,24 @@
   .bg-art{object-fit:contain}
   @media (min-width:900px){ .bg-art{object-position:center center} }
 
-  /* Animações leves */
+  /* Elementos animados leves */
   .bg-anim{position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden}
-  .balloon{position:absolute; width:26px; height:34px; border-radius:16px 16px 18px 18px; background:rgba(207,220,228,.32); box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .balloon{position:absolute; width:26px; height:34px; border-radius:16px 16px 18px 18px; background:rgba(255,255,255,.26); box-shadow:0 2px 8px rgba(0,0,0,.06)}
   .balloon::after{content:""; position:absolute; left:50%; bottom:-14px; width:1px; height:16px; background:rgba(0,0,0,.12); transform:translateX(-50%)}
   .b1{left:12%; bottom:-12%; animation:floatUp 22s linear infinite}
   .b2{left:28%; bottom:-14%; width:22px;height:30px; animation:floatUp 28s linear infinite 6s}
   .b3{right:14%; bottom:-13%; width:24px;height:32px; animation:floatUp 25s linear infinite 3s}
   @keyframes floatUp{from{transform:translateY(0);opacity:0}10%{opacity:.7}80%{opacity:.7}to{transform:translateY(-110vh) translateX(8vw);opacity:0}}
-  .cloud{position:absolute; width:120px; height:52px; background:rgba(255,255,255,.3); border-radius:40px; filter:blur(.4px); animation:drift 85s linear infinite}
+  .cloud{position:absolute; width:120px; height:52px; background:rgba(255,255,255,.22); border-radius:40px; filter:blur(.4px); animation:drift 85s linear infinite}
   .cloud::before,.cloud::after{content:""; position:absolute; background:inherit; border-radius:inherit}
   .cloud::before{width:80px;height:40px;left:16px;top:-16px}
   .cloud::after{width:62px;height:30px;left:56px;top:-6px}
   .c1{left:-20%; top:12%} .c2{left:-12%; top:34%; animation-duration:95s; opacity:.4}
   @keyframes drift{to{transform:translateX(140%)}}
-  .boat{position:absolute; left:6%; bottom:4%; width:0; height:0; border-left:26px solid transparent; border-right:26px solid transparent; border-top:20px solid rgba(255,255,255,.72); transform-origin:50% 100%; animation:bob 5.8s ease-in-out infinite}
-  .boat::after{content:""; position:absolute; left:-12px; bottom:18px; width:24px; height:8px; background:rgba(255,255,255,.72)}
+  .boat{position:absolute; left:6%; bottom:4%; width:0; height:0; border-left:26px solid transparent; border-right:26px solid transparent; border-top:20px solid rgba(255,255,255,.62); transform-origin:50% 100%; animation:bob 5.8s ease-in-out infinite}
+  .boat::after{content:""; position:absolute; left:-12px; bottom:18px; width:24px; height:8px; background:rgba(255,255,255,.62)}
   @keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(4px) rotate(2deg)}}
-  .plane{position:absolute; right:-12%; top:65%; width:0; height:0; border-style:solid; border-width:9px 0 9px 26px; border-color:transparent transparent transparent rgba(255,255,255,.78); filter:drop-shadow(0 2px 6px rgba(0,0,0,.08)); animation:planeFly 28s linear infinite}
+  .plane{position:absolute; right:-12%; top:65%; width:0; height:0; border-style:solid; border-width:9px 0 9px 26px; border-color:transparent transparent transparent rgba(255,255,255,.68); filter:drop-shadow(0 2px 6px rgba(0,0,0,.08)); animation:planeFly 28s linear infinite}
   @keyframes planeFly{0%{transform:translate(0,0) rotate(-10deg)}45%{transform:translate(-55vw,-26vh) rotate(-8deg)}55%{opacity:0}56%{right:-12%; top:70%; opacity:0}60%{opacity:.9}100%{transform:translate(-58vw,-28vh) rotate(-8deg)}}
 
   .main-container{position:relative; z-index:10}
@@ -65,7 +65,7 @@
   .name-display{font-family:var(--serif); font-size:clamp(3.4rem,10vw,5.2rem); font-style:italic; font-weight:400; margin:2rem 0; opacity:0; transform:scale(.92); transition:opacity .5s ease, transform .5s ease; background:linear-gradient(135deg,var(--powder),var(--powder-deep),var(--sage)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text}
   .name-display.active{opacity:1; transform:scale(1)}
 
-  /* Poema entre as seções */
+  /* Poemas */
   .poem{min-height:auto; padding:1.8rem 1.25rem}
   .poem .poem-card{max-width:520px; background:rgba(255,255,255,.82); border:1px solid rgba(0,0,0,.06); border-radius:20px; padding:1rem 1.25rem; text-align:center; box-shadow:0 10px 22px rgba(45,37,29,.10)}
   .poem p{font-family:var(--serif); font-size:1.15rem; color:#4A3C35; line-height:1.5}
@@ -134,7 +134,6 @@
       </div>
     </section>
 
-    <!-- POEMA 1 -->
     <section class="section poem" id="poema1">
       <div class="poem-card">
         <p>Do tamanho de um suspiro,<br>cabe um mundo de carinho.</p>
@@ -152,7 +151,6 @@
       </div>
     </section>
 
-    <!-- POEMA 2 -->
     <section class="section poem" id="poema2">
       <div class="poem-card">
         <p>Quem vem traz cheiro de abraço<br>e riso fácil na mão.</p>
@@ -169,7 +167,6 @@
       </div>
     </section>
 
-    <!-- POEMA 3 -->
     <section class="section poem" id="poema3">
       <div class="poem-card">
         <p>A vida muda de tom —<br>e a casa vira canção.</p>
@@ -207,97 +204,86 @@
   </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    /* Alterna nomes */
-    const names = {
-      male:['Gabriel','Miguel','Arthur','Heitor','Bernardo','Theo','Davi','Lorenzo','Nicolas','Samuel'],
-      female:['Alice','Sofia','Helena','Valentina','Laura','Isabella','Manuela','Julia','Heloisa','Luiza']
-    };
-    let gender='male';
-    const nameDisplay=document.getElementById('nameDisplay');
-    function switchName(){
-      nameDisplay.classList.remove('active');
-      setTimeout(()=>{
-        gender = (gender==='female')?'male':'female';
-        const list = names[gender];
-        nameDisplay.textContent = list[Math.floor(Math.random()*list.length)];
-        nameDisplay.style.background =
-          (gender==='male')
-          ? 'linear-gradient(135deg, var(--powder), var(--powder-deep), var(--sage))'
-          : 'linear-gradient(135deg, var(--burgundy), var(--gold), var(--burgundy-light))';
-        nameDisplay.style.webkitBackgroundClip='text';
-        nameDisplay.style.webkitTextFillColor='transparent';
-        nameDisplay.classList.add('active');
-      },220);
-    }
-    setTimeout(()=>nameDisplay.classList.add('active'),600);
-    setInterval(switchName,3200);
+document.addEventListener('DOMContentLoaded', () => {
+  /* Alterna nomes */
+  const names = {
+    male:['Gabriel','Miguel','Arthur','Heitor','Bernardo','Theo','Davi','Lorenzo','Nicolas','Samuel'],
+    female:['Alice','Sofia','Helena','Valentina','Laura','Isabella','Manuela','Julia','Heloisa','Luiza']
+  };
+  let gender='male';
+  const nameDisplay=document.getElementById('nameDisplay');
+  function switchName(){
+    nameDisplay.classList.remove('active');
+    setTimeout(()=>{
+      gender = (gender==='female')?'male':'female';
+      const list = names[gender];
+      nameDisplay.textContent = list[Math.floor(Math.random()*list.length)];
+      nameDisplay.style.background =
+        (gender==='male')
+        ? 'linear-gradient(135deg, var(--powder), var(--powder-deep), var(--sage))'
+        : 'linear-gradient(135deg, var(--burgundy), var(--gold), var(--burgundy-light))';
+      nameDisplay.style.webkitBackgroundClip='text';
+      nameDisplay.style.webkitTextFillColor='transparent';
+      nameDisplay.classList.add('active');
+    },220);
+  }
+  setTimeout(()=>nameDisplay.classList.add('active'),600);
+  setInterval(switchName,3200);
 
-    /* Seções + dots */
-    const sections=[...document.querySelectorAll('.section')];
-    const dots=[...document.querySelectorAll('.progress-dot')];
-    const idByEl=new Map(sections.map(s=>[s, s.id]));
-    const io=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){
-          e.target.classList.add('visible');
-          const id=idByEl.get(e.target);
-          dots.forEach(d=>d.classList.toggle('active', d.dataset.target===id));
-        }
-      })
-    },{threshold:.35, rootMargin:'0px 0px -20% 0px'});
-    sections.forEach(s=>io.observe(s));
-    dots.forEach(d=>d.addEventListener('click',()=>document.getElementById(d.dataset.target)?.scrollIntoView({behavior:'smooth'})));
-
-    /* ÁUDIO */
-    const bgm=document.getElementById('bgm');
-    const TARGET_VOL=0.5;
-    let started=false, primed=false;
-
-    // 1) Tenta iniciar mudo ao carregar (alguns navegadores permitem)
-    (async () => {
-      try{
-        bgm.volume = 0;
-        bgm.muted = true;
-        await bgm.play();
-        primed = true; // já está tocando mudo
-      }catch(e){
-        primed = false; // vai depender do gesto
+  /* Seções + dots */
+  const sections=[...document.querySelectorAll('.section')];
+  const dots=[...document.querySelectorAll('.progress-dot')];
+  const idByEl=new Map(sections.map(s=>[s, s.id]));
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        const id=idByEl.get(e.target);
+        dots.forEach(d=>d.classList.toggle('active', d.dataset.target===id));
       }
-    })();
+    })
+  },{threshold:.35, rootMargin:'0px 0px -20% 0px'});
+  sections.forEach(s=>io.observe(s));
+  dots.forEach(d=>d.addEventListener('click',()=>document.getElementById(d.dataset.target)?.scrollIntoView({behavior:'smooth'})));
 
-    function fadeTo(el, target=TARGET_VOL, ms=1000){
-      const start=el.volume, diff=target-start;
-      const steps=20, stepTime=ms/steps;
-      let i=0; const t=setInterval(()=>{ i++; el.volume = start + diff*(i/steps); if(i>=steps) clearInterval(t); }, stepTime);
-    }
+  /* ÁUDIO — robusto com scroll/touch */
+  const bgm=document.getElementById('bgm');
+  const TARGET_VOL=0.5;
+  function fadeTo(el, target=TARGET_VOL, ms=1000){
+    const start=el.volume, diff=target-start;
+    const steps=20, dt=ms/steps;
+    let i=0; const t=setInterval(()=>{ i++; el.volume=start+diff*(i/steps); if(i>=steps) clearInterval(t); }, dt);
+  }
+  let unlocked=false;
+  (async()=>{ try{ bgm.volume=0; bgm.muted=true; await bgm.play(); }catch(e){} })();
 
-    function unlockAudio(){
-      if(started) return; started=true;
-      try{
-        if(primed){
-          // já estava tocando mudo → só desmutar e fazer fade
-          bgm.muted=false;
-          setTimeout(()=>fadeTo(bgm, TARGET_VOL, 1000), 1000);
-        }else{
-          // precisa tocar agora com gesto
-          bgm.muted=false;
-          bgm.volume=0;
-          bgm.play().then(()=>setTimeout(()=>fadeTo(bgm, TARGET_VOL, 1000), 1000)).catch(()=>{});
-        }
-      }catch(e){}
-      // remove listeners
-      ['pointerdown','touchstart','touchmove','pointermove','wheel','scroll','keydown','mousedown'].forEach(ev=>{
-        window.removeEventListener(ev, unlockAudio);
-        document.removeEventListener(ev, unlockAudio);
-      });
-    }
-    // vincula também ao scroll/arrastar
-    ['pointerdown','touchstart','touchmove','pointermove','wheel','scroll','keydown','mousedown'].forEach(ev=>{
-      window.addEventListener(ev, unlockAudio, {passive:true});
-      document.addEventListener(ev, unlockAudio, {passive:true});
+  async function startAudio(){
+    if(unlocked) return;
+    try{
+      if(bgm.readyState < 2){ bgm.load(); }
+      bgm.muted=false;
+      if(bgm.paused){ await bgm.play(); }
+      setTimeout(()=>fadeTo(bgm, TARGET_VOL, 1000), 1000);
+      unlocked=true; detach();
+    }catch(e){ unlocked=false; }
+  }
+  const events=['click','pointerdown','pointerup','touchstart','touchend','touchmove','wheel','scroll','keydown','mousedown'];
+  function attach(){
+    events.forEach(ev=>{
+      window.addEventListener(ev, startAudio, {capture:true});
+      document.addEventListener(ev, startAudio, {capture:true});
+      document.body && document.body.addEventListener(ev, startAudio, {capture:true});
     });
-  });
+  }
+  function detach(){
+    events.forEach(ev=>{
+      window.removeEventListener(ev, startAudio, {capture:true});
+      document.removeEventListener(ev, startAudio, {capture:true});
+      document.body && document.body.removeEventListener(ev, startAudio, {capture:true});
+    });
+  }
+  attach();
+});
 </script>
 </body>
 </html>
