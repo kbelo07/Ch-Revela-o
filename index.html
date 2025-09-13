@@ -98,7 +98,7 @@
 </style>
 </head>
 <body>
-  <audio id="bgm" loop preload="auto" playsinline>
+  <audio id="bgm" loop preload="auto" playsinline autoplay>
     <source src="./audio/trilha.mp3" type="audio/mpeg">
   </audio>
 
@@ -250,6 +250,48 @@
     dots.forEach(d=>d.addEventListener('click',()=>document.getElementById(d.dataset.target)?.scrollIntoView({behavior:'smooth'})));
 
     /* ÁUDIO */
+    /* ÁUDIO — start on first user gesture (including scroll) with fade to 50% */
+    const bgm = document.getElementById('bgm');
+    const TARGET_VOL = 0.5;
+    bgm.volume = 0; // start silent (autoplay may run muted by policy)
+    bgm.muted = false; // keep unmuted; some browsers ignore, but fine
+
+    function fadeTo(target = TARGET_VOL, ms = 800){
+      const start = bgm.volume, diff = target - start;
+      const steps = 20, stepTime = ms / steps;
+      let i = 0;
+      const t = setInterval(() => {
+        i++;
+        bgm.volume = Math.min(1, Math.max(0, start + diff * (i / steps)));
+        if (i >= steps) clearInterval(t);
+      }, stepTime);
+    }
+
+    function startAudio(){
+      if (startAudio.started) return;
+      startAudio.started = true;
+      try {
+        // ensure it's ready
+        bgm.load();
+        bgm.currentTime = 0;
+        const p = bgm.play();
+        if (p && p.catch) p.catch(()=>{});
+        // fade after 1s
+        setTimeout(() => fadeTo(TARGET_VOL, 1000), 1000);
+      } catch(e) {}
+      // remove listeners to avoid overhead
+      ['pointerdown','pointerup','touchstart','touchend','click','keydown','wheel','scroll'].forEach(ev=>{
+        window.removeEventListener(ev, startAudio);
+        document.removeEventListener(ev, startAudio);
+      });
+    }
+
+    // bind early and broadly — scroll/drag should count
+    ['pointerdown','pointerup','touchstart','touchend','click','keydown','wheel','scroll'].forEach(ev=>{
+      window.addEventListener(ev, startAudio, {passive:true});
+      document.addEventListener(ev, startAudio, {passive:true});
+    });
+
     const bgm=document.getElementById('bgm');
     const TARGET_VOL=0.5;
     let started=false, primed=false;
