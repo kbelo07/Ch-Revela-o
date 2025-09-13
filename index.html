@@ -6,13 +6,6 @@
 <title>Chá Revelação - Convite Especial</title>
 <meta name="description" content="Convite online para o Chá Revelação — com confirmação de presença, agenda, localização, votação divertida e lista de presentes.">
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Chá Revelação - Convite Especial">
-<meta property="og:description" content="Vem descobrir com a gente — leve, do nosso jeito e sem pressa. ✨">
-<meta property="twitter:card" content="summary_large_image">
-
-<link rel="preload" as="image" href="./img/bg-mobile-1440x2560.webp">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -26,17 +19,12 @@
     --burgundy-light:#A55D65;
     --taupe:#B8A896;
     --taupe-light:#C4B5A4;
-    --ivory:#E8DDD4;
-    --cream:#F5F0E8;
-    --off-white:#FEFCF7;
-    --gold:#E6C368;
-    --gold-light:#F2D085;
-    --sage:#8FA693;
-    --sage-light:#A8C4A2;
-    --powder:#C7D5E0;
-    --powder-deep:#6F8D98;
     --label-contrast:#4A3C35;
     --subtitle-contrast:#5A5A5A;
+    --gold-light:#F2D085;
+    --powder:#C7D5E0;
+    --powder-deep:#6F8D98;
+    --sage:#8FA693;
     --serif:'Playfair Display',serif;
     --sans:'Inter',sans-serif;
   }
@@ -44,25 +32,47 @@
   html{scroll-behavior:smooth}
   body{font-family:var(--sans); color:var(--brown-dark); background:#fff; line-height:1.6; overflow-x:hidden; min-height:100vh; position:relative}
 
-  .background-paper{position:fixed; inset:0; background:#fff; z-index:-2}
+  /* Fundo com fallback forte:
+     1) Gradient base + JPG (sempre presente)
+     2) @media troca para JPG desktop
+     3) @supports image-set usa WEBP quando possível */
   .background-pattern{
     position:fixed; inset:0; z-index:-2;
-    background-repeat:no-repeat; background-position:center bottom; background-size:cover;
-    background-image:image-set(
-      url("./img/bg-mobile-1440x2560.webp") type("image/webp") 1x,
-      url("./img/bg-mobile-1440x2560.jpg")  type("image/jpeg") 1x
-    );
+    background:
+      radial-gradient(1200px 800px at 50% 80%, rgba(0,0,0,.04), transparent 60%),
+      linear-gradient(180deg, #F7F4EF 0%, #E8E2D8 100%);
+    background-repeat:no-repeat;
+    background-position:center bottom;
+    background-size:cover;
+    /* Fallback JPG (mobile) */
+    background-image: url('./img/bg-mobile-1440x2560.jpg');
   }
   @media (min-width:900px){
     .background-pattern{
-      background-image:image-set(
-        url("./img/bg-desktop-2560x1440.webp") type("image/webp") 1x,
-        url("./img/bg-desktop-2560x1440.jpg")  type("image/jpeg") 1x
-      );
       background-position:center center;
+      /* Fallback JPG (desktop) */
+      background-image: url('./img/bg-desktop-2560x1440.jpg');
+    }
+  }
+  @supports (background-image: image-set(url('x') 1x)){
+    .background-pattern{
+      background-image: image-set(
+        url('./img/bg-mobile-1440x2560.webp') type('image/webp') 1x,
+        url('./img/bg-mobile-1440x2560.jpg')  type('image/jpeg') 1x
+      );
+    }
+    @media (min-width:900px){
+      .background-pattern{
+        background-image: image-set(
+          url('./img/bg-desktop-2560x1440.webp') type('image/webp') 1x,
+          url('./img/bg-desktop-1440x2560.jpg') type('image/jpeg') 1x, /* safety */
+          url('./img/bg-desktop-2560x1440.jpg') type('image/jpeg') 1x
+        );
+      }
     }
   }
 
+  /* Camada animada */
   .bg-anim{position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden}
   .balloon{position:absolute; width:28px; height:36px; border-radius:16px 16px 18px 18px; background:rgba(207,220,228,.35); box-shadow:0 2px 8px rgba(0,0,0,.06)}
   .balloon::after{content:""; position:absolute; left:50%; bottom:-14px; width:1px; height:16px; background:rgba(0,0,0,.12); transform:translateX(-50%)}
@@ -94,12 +104,12 @@
   .section.visible{opacity:1; transform:none}
   .section-content{text-align:center; max-width:420px; width:100%; background:rgba(255,255,255,.85); backdrop-filter:blur(20px); border-radius:24px; padding:2.5rem 2rem; border:1px solid rgba(255,255,255,.4); box-shadow:0 20px 60px rgba(45,37,29,.12), inset 0 1px 0 rgba(255,255,255,.8)}
 
-  .title-main{font-family:var(--serif); font-size:clamp(2.8rem,8vw,4.2rem); font-weight:700; background:linear-gradient(135deg,var(--burgundy),var(--burgundy-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-.02em; margin-bottom:1rem; line-height:1.1; text-shadow:0 2px 4px rgba(139,74,82,.1)}
+  .title-main{font-family:var(--serif); font-size:clamp(2.8rem,8vw,4.2rem); font-weight:700; background:linear-gradient(135deg,#8B4A52,#A55D65); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-.02em; margin-bottom:1rem; line-height:1.1; text-shadow:0 2px 4px rgba(139,74,82,.1)}
   .title-secondary{font-family:var(--serif); font-size:clamp(1.8rem,6vw,2.4rem); font-weight:600; color:var(--brown); margin-bottom:1.2rem; position:relative}
-  .title-secondary::after{content:""; position:absolute; bottom:-8px; left:50%; transform:translateX(-50%); width:60px; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+  .title-secondary::after{content:""; position:absolute; bottom:-8px; left:50%; transform:translateX(-50%); width:60px; height:2px; background:linear-gradient(90deg,transparent,#E6C368,transparent)}
   .subtitle{font-size:1.1rem; color:var(--subtitle-contrast); margin-bottom:2rem; font-weight:400; line-height:1.7}
 
-  .name-display{font-family:var(--serif); font-size:clamp(3.5rem,10vw,5.5rem); font-style:italic; font-weight:400; margin:2.2rem 0; opacity:0; transform:scale(.9); transition:opacity .6s ease, transform .6s ease; background:linear-gradient(135deg,var(--powder),var(--powder-deep),var(--sage)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; text-shadow:0 4px 8px rgba(139,74,82,.15)}
+  .name-display{font-family:var(--serif); font-size:clamp(3.5rem,10vw,5.5rem); font-style:italic; font-weight:400; margin:2.2rem 0; opacity:0; transform:scale(.9); transition:opacity .6s ease, transform .6s ease; background:linear-gradient(135deg, var(--powder), var(--powder-deep), var(--sage)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; text-shadow:0 4px 8px rgba(139,74,82,.15)}
   .name-display.active{opacity:1; transform:scale(1)}
   .gender-indicator{display:none}
 
@@ -110,7 +120,7 @@
   .val{font-family:var(--serif); font-size:1.2rem; color:var(--brown); font-weight:500}
 
   .location-card{background:rgba(255,255,255,.7); border-radius:20px; padding:2rem; margin:1.2rem 0; border:1px solid rgba(255,255,255,.5); box-shadow:0 16px 50px rgba(45,37,29,.1); backdrop-filter:blur(15px)}
-  .location-title{font-family:var(--serif); font-size:1.6rem; color:var(--burgundy); margin-bottom:.4rem; font-weight:600}
+  .location-title{font-family:var(--serif); font-size:1.6rem; color:#8B4A52; margin-bottom:.4rem; font-weight:600}
   .address{color:var(--brown); line-height:1.7; font-size:1.05rem}
 
   .actions-list{width:100%; max-width:460px; display:flex; flex-direction:column; gap:18px; margin-top:1.2rem}
@@ -129,7 +139,7 @@
   .progress-dots{position:fixed; right:1.5rem; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:1rem; z-index:100}
   .progress-dot{width:10px; height:10px; border-radius:50%; background:rgba(184,168,150,.4); transition:all .4s ease; cursor:pointer; position:relative}
   .progress-dot::before{content:""; position:absolute; inset:-4px; border-radius:50%; border:2px solid transparent; transition:border-color .4s ease}
-  .progress-dot.active{background:var(--burgundy); transform:scale(1.4); box-shadow:0 0 16px rgba(139,74,82,.4)}
+  .progress-dot.active{background:#8B4A52; transform:scale(1.4); box-shadow:0 0 16px rgba(139,74,82,.4)}
   .progress-dot.active::before{border-color:rgba(139,74,82,.3)}
 
   .scroll-indicator{position:fixed; left:50%; bottom:2.2rem; transform:translateX(-50%); color:#6b625a; font-size:.9rem; display:flex; flex-direction:column; align-items:center; gap:.65rem; opacity:.9; z-index:10}
@@ -146,6 +156,7 @@
 </style>
 </head>
 <body>
+  <!-- Trilha: já apontando para /audio/trilha.mp3 -->
   <audio id="bgm" loop preload="auto">
     <source src="./audio/trilha.mp3" type="audio/mpeg">
   </audio>
@@ -153,7 +164,6 @@
     <i class="fa-solid fa-volume-xmark"></i>
   </button>
 
-  <div class="background-paper"></div>
   <div class="background-pattern"></div>
 
   <div class="bg-anim" aria-hidden="true">
@@ -250,7 +260,7 @@
         if(gender==='male'){
           nameDisplay.style.background = 'linear-gradient(135deg, var(--powder), var(--powder-deep), var(--sage))';
         }else{
-          nameDisplay.style.background = 'linear-gradient(135deg, var(--burgundy), var(--gold), var(--burgundy-light))';
+          nameDisplay.style.background = 'linear-gradient(135deg, #8B4A52, #E6C368, #A55D65)';
         }
         nameDisplay.style.webkitBackgroundClip='text';
         nameDisplay.style.webkitTextFillColor='transparent';
@@ -276,12 +286,25 @@
     sections.forEach(s=>io.observe(s));
     dots.forEach(d=>d.addEventListener('click',()=>document.getElementById(d.dataset.target)?.scrollIntoView({behavior:'smooth'})));
 
+    // Áudio com volume base e fade-in
     const bgm=document.getElementById('bgm');
     const toggle=document.getElementById('audioToggle');
+    bgm.volume = 0.25;
+    function fadeIn(el, ms = 1200, target = 0.25){
+      el.volume = 0;
+      const steps = 20, step = target/steps, interval = ms/steps;
+      const t=setInterval(()=>{
+        el.volume = Math.min(target, el.volume + step);
+        if(el.volume >= target) clearInterval(t);
+      },interval);
+    }
     let tried=false;
     function tryPlay(){
       if(tried) return; tried=true;
-      bgm.play().then(()=>{toggle.innerHTML='<i class="fa-solid fa-volume-high"></i>';}).catch(()=>{});
+      bgm.play().then(()=>{
+        fadeIn(bgm, 1200, 0.25);
+        toggle.innerHTML='<i class="fa-solid fa-volume-high"></i>';
+      }).catch(()=>{});
     }
     ['click','touchstart','keydown','scroll'].forEach(ev=>window.addEventListener(ev,tryPlay,{once:true,passive:true}));
     toggle.addEventListener('click',()=>{
