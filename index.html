@@ -1,84 +1,56 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Chá Revelação — Convite</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./style.css?v=9">
-<meta name="theme-color" content="#ffffff">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Chá Revelação — Convite</title>
+  <meta name="theme-color" content="#f5efe6"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-<picture>
-  <source srcset="./img/bg-final-v5.webp?v=9" type="image/webp"/>
-  <img class="bg-art" src="./img/bg-final-v5.jpg?v=9" alt="Fundo com balões e nuvens" loading="eager" decoding="sync">
-</picture>
+  <main class="screen-9x16">
+    <!-- Camada de fundo: coloque aqui a imagem exportada da PÁGINA 1 do seu PDF como 1440x2560 -->
+    <img class="bg" src="assets/img/convite-p1.jpg" alt="Convite - Página 1 (fundo)"/>
+    
+    <!-- Camadas animadas de sobreposição (exemplos leves, podem ser removidas/trocadas) -->
+    <div class="float float-ballon a1" aria-hidden="true"></div>
+    <div class="float float-ballon a2" aria-hidden="true"></div>
+    <div class="float float-bear" aria-hidden="true"></div>
 
-<main class="container">
+    <!-- Links clicáveis posicionados exatamente sobre as menções do layout -->
+    <!-- 1) Endereço (Google Maps) — área sobre o bloco do endereço -->
+    <a class="hotspot maps" href="#" target="_blank" rel="noopener" aria-label="Abrir localização no Google Maps"></a>
 
-  <!-- Capa -->
-  <section class="section section--cover" id="capa">
-    <div style="width:100%">
-      <h1 class="h1">Chá Revelação</h1>
-      <p class="sub">Vem descobrir com a gente — leve, do nosso jeito e sem pressa. ✨</p>
-      <div class="name" id="name">Davi</div>
-    </div>
-  </section>
+    <!-- 2) Confirmar presença no WhatsApp — área sobre a frase 'CONFIRMAR PRESENÇA NO WHATSAPP' -->
+    <a class="hotspot whatsapp" href="#" target="_blank" rel="noopener" aria-label="Confirmar presença no WhatsApp"></a>
 
-  <!-- Poema 1 -->
-  <section class="section">
-    <p class="poem">Entre nuvens e sorrisos, um coração cresce em segredo.</p>
-  </section>
+    <!-- 3) Lista de presentes — ficará na página 2 do PDF/HTML; aqui deixamos opcional -->
+    <!-- Se quiser um atalho na página 1, habilite a linha abaixo e ajuste a posição -->
+    <!-- <a class="hotspot wishlist" href="#" target="_blank" rel="noopener" aria-label="Abrir lista de presentes"></a> -->
 
-  <!-- Agenda -->
-  <section class="section" id="agenda">
-    <h2 class="block-title">Reserve na agenda</h2>
-    <div class="grid3">
-      <div class="field"><div class="lab">Data</div><div class="val">21/09/2025</div></div>
-      <div class="field"><div class="lab">Horário</div><div class="val">15:30</div></div>
-      <div class="field"><div class="lab">Traje</div><div class="val">tons claros</div></div>
-    </div>
-  </section>
+    <!-- Rodapé fixo (opcional): ícones redondos -->
+    <nav class="dock">
+      <a class="dock-btn" data-kind="whatsapp" href="#" target="_blank" rel="noopener" title="Confirmar no WhatsApp">WhatsApp</a>
+      <a class="dock-btn" data-kind="maps" href="#" target="_blank" rel="noopener" title="Abrir no Maps">Mapa</a>
+      <a class="dock-btn" data-kind="wishlist" href="#" target="_blank" rel="noopener" title="Lista de presentes">Lista</a>
+    </nav>
+  </main>
 
-  <!-- Poema 2 -->
-  <section class="section">
-    <p class="poem">Nosso mundo muda de tamanho, mas só cabe mais amor.</p>
-  </section>
-
-  <!-- Local + botões -->
-  <section class="section" id="local">
-    <h2 class="block-title">Local</h2>
-    <p class="sub" style="text-align:center; margin-bottom:14px">
-      Rua Otávio Antônio Duarte, 299, XV de Novembro — Tijucas • SC
-    </p>
-    <div class="actions">
-      <a class="btn" href="https://wa.me/554899245688?text=Oi!%20Confirmo%20presen%C3%A7a%20no%20Ch%C3%A1%20Revela%C3%A7%C3%A3o." aria-label="Confirmar no WhatsApp">
-        <!-- chat -->
-        <svg class="icon icon--accent" viewBox="0 0 24 24"><path d="M21 12a8.5 8.5 0 0 1-8.5 8.5H7l-4 3 1.5-5A8.5 8.5 0 1 1 21 12Z"/></svg>
-      </a>
-      <a class="btn" href="https://maps.app.goo.gl/AK5U1NG3bWXT1neR9" target="_blank" aria-label="Ver no mapa">
-        <!-- pin -->
-        <svg class="icon" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.8"/></svg>
-      </a>
-      <a class="btn" href="https://example.com/presentes" aria-label="Lista de presentes">
-        <!-- gift -->
-        <svg class="icon" viewBox="0 0 24 24"><path d="M3 8h18v13H3Z"/><path d="M12 8v13M3 12h18"/><path d="M7.5 6a2.5 2.5 0 1 1 5 0v2H9a1.5 1.5 0 0 1-1.5-1.5Z"/><path d="M16.5 6a2.5 2.5 0 0 0-5 0v2h3.5A1.5 1.5 0 0 0 16.5 6Z"/></svg>
-      </a>
-    </div>
-    <p class="sub" style="text-align:center; margin-top:16px">
-      Obrigado por fazer parte desse momento com a gente. Sua presença é especial — vai ser lindo ter você por perto. 💙💚
-    </p>
-  </section>
-
-</main>
-
-<!-- seta-botão: some após usar -->
-<button id="jump" aria-label="Ir para a próxima seção" title="Continuar">
-  <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-</button>
-
-<script src="./script.js?v=9"></script>
+  <script>
+    // Configure aqui os MESMOS links que você já usa no GitHub
+    const LINKS = {
+      whatsapp: "https://wa.me/5547999999999?text=Confirmo%20presen%C3%A7a%20no%20Ch%C3%A1%20Revela%C3%A7%C3%A3o",
+      maps: "https://maps.google.com/?q=Rua%20Ot%C3%A1vio%20Ant%C3%B4nio%20Duarte%2C%20299%2C%20Casa%2001%2C%20XV%20de%20Novembro",
+      wishlist: "https://example.com/lista-presentes"
+    };
+    for (const [k, v] of Object.entries(LINKS)) {
+      document.querySelectorAll(`[data-kind="${k}"]`).forEach(el => el.href = v);
+      const hs = document.querySelector(`.hotspot.${k}`);
+      if (hs) hs.href = v;
+    }
+  </script>
 </body>
 </html>
